@@ -1,4 +1,7 @@
 ui <- navbarPage(
+  
+  theme = bslib::bs_theme(bootswatch = "flatly"),
+  
   "HPAanalyze",
   tabPanel("Tissue"),
   
