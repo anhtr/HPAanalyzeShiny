@@ -14,7 +14,7 @@ ui <- navbarPage(
       ),
       mainPanel(
         withSpinner(plotOutput("plot", width = 500)),
-        verbatimTextOutput("text")
+        dataTableOutput("table")
       )
     )
   ),
