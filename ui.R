@@ -10,7 +10,8 @@ ui <- navbarPage(
     "Pathology",
     sidebarLayout(
       sidebarPanel(
-        textInput("gene", label = "Gene")
+        textInput("gene", label = "Gene"),
+        downloadButton("download_data", "Download data")
       ),
       mainPanel(
         withSpinner(plotOutput("plot", width = 500)),
