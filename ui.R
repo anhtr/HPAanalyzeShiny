@@ -1,8 +1,9 @@
 ui <- navbarPage(
   
   theme = bslib::bs_theme(bootswatch = "flatly"),
-  
+
   "HPAanalyze",
+  
   tabPanel("Tissue"),
   
   tabPanel(
@@ -12,7 +13,7 @@ ui <- navbarPage(
         textInput("gene", label = "Gene")
       ),
       mainPanel(
-        plotOutput("plot", width = 500),
+        withSpinner(plotOutput("plot", width = 500)),
         verbatimTextOutput("text")
       )
     )
