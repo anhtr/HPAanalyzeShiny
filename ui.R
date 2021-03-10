@@ -1,7 +1,7 @@
 ui <- navbarPage(
   
   theme = bslib::bs_theme(bootswatch = "flatly"),
-
+  
   "HPAanalyze",
   
   tabPanel("Tissue"),
@@ -12,7 +12,8 @@ ui <- navbarPage(
       sidebarPanel(
         selectInput("gene", label = "Gene(s)", choices = NULL, multiple = TRUE),
         selectInput("cancer", label = HTML("Cancer(s) <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
-        actionButton("go", "Go!"),
+        actionButton("go", "Go!", class = "btn-success"),
+        HTML("<br/><br/>"),
         downloadButton("download_data", "Download data")
       ),
       mainPanel(
