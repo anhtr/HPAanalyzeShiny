@@ -13,14 +13,14 @@ server <- function(input, output, session) {
   
   ## Creating plot
   output$plot <- renderPlot({
-    req(input$go)
+    req(input$go, isolate(input$gene))
     hpaVisPatho(targetGene = isolate(input$gene), 
                 targetCancer = isolate(input$cancer))
     })
   
   ## Creating table
   data <- reactive({
-    req(input$go)
+    req(input$go, isolate(input$gene))
     hpaSubset(targetGene = isolate(input$gene), 
               targetCancer = isolate(input$cancer))$pathology
     })
