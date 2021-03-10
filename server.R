@@ -1,8 +1,29 @@
 server <- function(input, output, session) {
   
-  output$plot <- renderPlot(hpaVisPatho(targetGene = input$gene))
+  ## Selectize input
+  updateSelectizeInput(
+    session, "gene", 
+    choices = HPAanalyze::hpa_histology_data$pathology$gene,
+    server = TRUE)
   
-  data <- reactive(hpaSubset(targetGene = input$gene)$pathology)
+  updateSelectizeInput(
+    session, "cancer", 
+    choices = HPAanalyze::hpa_histology_data$pathology$cancer,
+    server = TRUE)
+  
+  ## Creating plot
+  output$plot <- renderPlot({
+    req(input$go)
+    hpaVisPatho(targetGene = isolate(input$gene), 
+                targetCancer = isolate(input$cancer))
+    })
+  
+  ## Creating table
+  data <- reactive({
+    req(input$go)
+    hpaSubset(targetGene = isolate(input$gene), 
+              targetCancer = isolate(input$cancer))$pathology
+    })
   
   output$table <- renderDataTable(
     data(),
@@ -10,7 +31,7 @@ server <- function(input, output, session) {
   
   output$download_data <- downloadHandler(
     filename = function() {
-      paste0("pathology_", input$gene, ".csv")
+      paste0("pathology_", gsub("[^0-9]", '_', Sys.time()), ".csv")
     },
     content = function(file) {
       vroom::vroom_write(data(), file, delim = ",")

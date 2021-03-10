@@ -10,7 +10,9 @@ ui <- navbarPage(
     "Pathology",
     sidebarLayout(
       sidebarPanel(
-        textInput("gene", label = "Gene"),
+        selectInput("gene", label = "Gene(s)", choices = NULL, multiple = TRUE),
+        selectInput("cancer", label = HTML("Cancer(s) <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
+        actionButton("go", "Go!"),
         downloadButton("download_data", "Download data")
       ),
       mainPanel(
