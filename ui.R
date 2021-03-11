@@ -1,7 +1,9 @@
-download_buttons_ui <- function(id) {
+buttons_ui <- function(id) {
   tagList(
+    actionButton(NS(id,"go"), "Go!", class = "btn-primary btn-lg btn-block"),
     HTML("<br/><br/>"),
-    downloadButton(NS(id,"download_data"), "Download data")
+    downloadButton(NS(id, "download_data"), "Data", class = "btn-block"),
+    downloadButton(NS(id, "download_plot"), "Plot", class = "btn-block")
   )
 }
 
@@ -9,10 +11,9 @@ pathologyUI <- function(id) {
   tagList(
     sidebarLayout(
       sidebarPanel(
-        selectInput(NS(id,"gene"), label = "Gene(s)", choices = NULL, multiple = TRUE),
-        selectInput(NS(id,"cancer"), label = HTML("Cancer(s) <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
-        actionButton(NS(id,"go"), "Go!", class = "btn-success"),
-        download_buttons_ui(id)
+        selectInput(NS(id,"gene"), label = "Genes", choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"cancer"), label = HTML("Cancers <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
+        buttons_ui(id)
       ),
       mainPanel(
         withSpinner(plotOutput(NS(id,"plot"), width = 500)),
