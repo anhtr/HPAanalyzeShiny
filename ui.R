@@ -11,9 +11,13 @@ tissueUI <- function(id) {
   tagList(
     sidebarLayout(
       sidebarPanel(
-        selectInput(NS(id,"gene"), label = "Genes", choices = NULL, multiple = TRUE),
-        selectInput(NS(id,"tissue"), label = HTML("Tissues"), choices = NULL, multiple = TRUE),
-        selectInput(NS(id,"cell_type"), label = HTML("Cell types <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"gene"), label = "Genes", 
+                    choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"tissue"), label = HTML("Tissues"), 
+                    choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"cell_type"), 
+                    label = HTML("Cell types <br/> (Leave emplty for all)"), 
+                    choices = NULL, multiple = TRUE),
         buttons_ui(id)
       ),
       mainPanel(
@@ -28,8 +32,11 @@ pathologyUI <- function(id) {
   tagList(
     sidebarLayout(
       sidebarPanel(
-        selectInput(NS(id,"gene"), label = "Genes", choices = NULL, multiple = TRUE),
-        selectInput(NS(id,"cancer"), label = HTML("Cancers <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"gene"), label = "Genes", 
+                    choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"cancer"), 
+                    label = HTML("Cancers <br/> (Leave emplty for all)"), 
+                    choices = NULL, multiple = TRUE),
         buttons_ui(id)
       ),
       mainPanel(

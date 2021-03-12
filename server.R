@@ -1,20 +1,13 @@
 tissueServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     ## Selectize input
-    updateSelectizeInput(
-      session, "gene", 
-      choices = HPAanalyze::hpa_histology_data$normal_tissue$gene,
-      server = TRUE)
     
-    updateSelectizeInput(
-      session, "tissue", 
-      choices = HPAanalyze::hpa_histology_data$normal_tissue$tissue,
-      server = TRUE)
-    
-    updateSelectizeInput(
-      session, "cell_type", 
-      choices = HPAanalyze::hpa_histology_data$normal_tissue$cell_type,
-      server = TRUE)
+    for (i in c("gene", "tissue", "cell_type")) {
+      updateSelectizeInput(
+        session, i, 
+        choices = HPAanalyze::hpa_histology_data$normal_tissue[[i]],
+        server = TRUE)
+    }
     
     ## Creating plot
     output$plot <- renderPlot({
@@ -51,16 +44,14 @@ tissueServer <- function(id) {
 pathologyServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     ## Selectize input
-    updateSelectizeInput(
-      session, "gene", 
-      choices = HPAanalyze::hpa_histology_data$pathology$gene,
-      server = TRUE)
     
-    updateSelectizeInput(
-      session, "cancer", 
-      choices = HPAanalyze::hpa_histology_data$pathology$cancer,
-      server = TRUE)
-    
+    for (i in c("gene", "cancer")) {
+      updateSelectizeInput(
+        session, i, 
+        choices = HPAanalyze::hpa_histology_data$pathology[[i]],
+        server = TRUE)
+    }
+
     ## Creating plot
     output$plot <- renderPlot({
       req(input$go, isolate(input$gene))
