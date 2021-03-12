@@ -7,6 +7,23 @@ buttons_ui <- function(id) {
   )
 }
 
+tissueUI <- function(id) {
+  tagList(
+    sidebarLayout(
+      sidebarPanel(
+        selectInput(NS(id,"gene"), label = "Genes", choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"tissue"), label = HTML("Tissues"), choices = NULL, multiple = TRUE),
+        selectInput(NS(id,"cell_type"), label = HTML("Cell types <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
+        buttons_ui(id)
+      ),
+      mainPanel(
+        withSpinner(plotOutput(NS(id,"plot"), width = 500)),
+        dataTableOutput(NS(id,"table"))
+      )
+    )
+  )
+}
+
 pathologyUI <- function(id) {
   tagList(
     sidebarLayout(
@@ -31,19 +48,7 @@ ui <- navbarPage(
   
   tabPanel(
     "Tissue",
-    # sidebarLayout(
-    #   sidebarPanel(
-    #     selectInput("gene", label = "Gene(s)", choices = NULL, multiple = TRUE),
-    #     selectInput("tissue", label = HTML("Tissue(s)"), choices = NULL, multiple = TRUE),
-    #     selectInput("cell_type", label = HTML("Cell type(s) <br/> (Leave emplty for all)"), choices = NULL, multiple = TRUE),
-    #     actionButton("go", "Go!", class = "btn-success"),
-    #     download_buttons_ui()
-    #   ),
-    #   mainPanel(
-    #     withSpinner(plotOutput("plot", width = 500)),
-    #     dataTableOutput("table")
-    #   )
-    # )
+    tissueUI("tissue")
   ),
   
   tabPanel(

@@ -1,3 +1,53 @@
+tissueServer <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    ## Selectize input
+    updateSelectizeInput(
+      session, "gene", 
+      choices = HPAanalyze::hpa_histology_data$normal_tissue$gene,
+      server = TRUE)
+    
+    updateSelectizeInput(
+      session, "tissue", 
+      choices = HPAanalyze::hpa_histology_data$normal_tissue$tissue,
+      server = TRUE)
+    
+    updateSelectizeInput(
+      session, "cell_type", 
+      choices = HPAanalyze::hpa_histology_data$normal_tissue$cell_type,
+      server = TRUE)
+    
+    ## Creating plot
+    output$plot <- renderPlot({
+      req(input$go, isolate(input$gene), isolate(input$tissue))
+      hpaVisTissue(targetGene = isolate(input$gene), 
+                  targetTissue = isolate(input$tissue),
+                  targetCellType = isolate(input$cell_type))
+    })
+    
+    ## Creating table
+    data <- reactive({
+      req(input$go, isolate(input$gene), isolate(input$tissue))
+      hpaSubset(targetGene = isolate(input$gene), 
+                targetTissue = isolate(input$tissue),
+                targetCellType = isolate(input$cell_type))$normal_tissue
+    })
+    
+    output$table <- renderDataTable(
+      data(),
+      options = list(pageLength = 5))
+    
+    output$download_data <- downloadHandler(
+      filename = function() {
+        paste0("tissue_", gsub("[^0-9]", '_', Sys.time()), ".csv")
+      },
+      content = function(file) {
+        vroom::vroom_write(data(), file, delim = ",")
+      }
+    )
+  })
+}
+
+
 pathologyServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     ## Selectize input
@@ -42,21 +92,8 @@ pathologyServer <- function(id) {
 
 server <- function(input, output, session) {
   
-  # ## Selectize input
-  # updateSelectizeInput(
-  #   session, "gene", 
-  #   choices = HPAanalyze::hpa_histology_data$normal_tissue$gene,
-  #   server = TRUE)
-  # 
-  # updateSelectizeInput(
-  #   session, "tissue", 
-  #   choices = HPAanalyze::hpa_histology_data$normal_tissue$tissue,
-  #   server = TRUE)
-  # 
-  # updateSelectizeInput(
-  #   session, "cell_type", 
-  #   choices = HPAanalyze::hpa_histology_data$normal_tissue$cell_type,
-  #   server = TRUE)
+## TISSUE
+  tissueServer("tissue")
   
 ## PATHOLOGY ===================================================================
   pathologyServer("pathology")
