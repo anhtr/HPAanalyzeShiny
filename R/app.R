@@ -7,7 +7,7 @@ hpaShiny <- function(...) {
     
     theme = bslib::bs_theme(bootswatch = "flatly"),
     
-    "HPAanalyze",
+    title = "HPAanalyze",
     
     tabPanel(
       "Tissue",
@@ -19,7 +19,10 @@ hpaShiny <- function(...) {
       pathologyUI("pathology")
     ),
     
-    tabPanel("Subcellular location")
+    tabPanel(
+      "Subcellular location",
+      subcellUI("subcell")
+    )
   )
   
   server <- function(input, output, session) {
@@ -30,6 +33,8 @@ hpaShiny <- function(...) {
     ## PATHOLOGY ===============================
     pathologyServer("pathology")
     
+    ## SUBCELLULAR LOCATION ====================
+    subcellServer("subcell")
     
   }
   

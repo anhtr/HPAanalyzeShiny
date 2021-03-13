@@ -33,7 +33,8 @@ tissueServer <- function(id) {
     ## Creating plot
     output$plot <- renderPlot({
       req(input$go, isolate(input$gene), isolate(input$tissue))
-      hpaVisTissue(targetGene = isolate(input$gene), 
+      hpaVisTissue(data = HPAanalyze::hpa_histology_data,
+                   targetGene = isolate(input$gene), 
                    targetTissue = isolate(input$tissue),
                    targetCellType = isolate(input$cell_type))
     })
@@ -41,7 +42,8 @@ tissueServer <- function(id) {
     ## Creating table
     data <- reactive({
       req(input$go, isolate(input$gene), isolate(input$tissue))
-      hpaSubset(targetGene = isolate(input$gene), 
+      hpaSubset(data = HPAanalyze::hpa_histology_data,
+                targetGene = isolate(input$gene), 
                 targetTissue = isolate(input$tissue),
                 targetCellType = isolate(input$cell_type))$normal_tissue
     })
