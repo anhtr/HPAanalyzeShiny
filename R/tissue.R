@@ -31,12 +31,14 @@ tissueServer <- function(id) {
     }
     
     ## Creating plot
+    
     output$plot <- renderPlot({
       req(input$go, isolate(input$gene), isolate(input$tissue))
-      hpaVisTissue(data = HPAanalyze::hpa_histology_data,
+      output_plot <<- hpaVisTissue(data = HPAanalyze::hpa_histology_data,
                    targetGene = isolate(input$gene), 
                    targetTissue = isolate(input$tissue),
                    targetCellType = isolate(input$cell_type))
+      output_plot
     })
     
     ## Creating table
@@ -58,6 +60,15 @@ tissueServer <- function(id) {
       },
       content = function(file) {
         vroom::vroom_write(data(), file, delim = ",")
+      }
+    )
+    
+    output$download_plot <- downloadHandler(
+      filename = function() {
+        paste0("tissue_", gsub("[^0-9]", '_', Sys.time()), ".pdf")
+      },
+      content = function(file) {
+        ggplot2::ggsave(file, plot = output_plot, device = "pdf")
       }
     )
   })
