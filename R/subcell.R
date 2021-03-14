@@ -33,9 +33,10 @@ subcellServer <- function(id) {
     ## Creating plot
     output$plot <- renderPlot({
       req(input$go, isolate(input$gene))
-      hpaVisSubcell(data = HPAanalyze::hpa_histology_data,
+      output_plot <<- hpaVisSubcell(data = HPAanalyze::hpa_histology_data,
                     targetGene = isolate(input$gene), 
                     reliability = isolate(input$reliability))
+      output_plot
     })
     
     ## Creating table
@@ -51,10 +52,19 @@ subcellServer <- function(id) {
     
     output$download_data <- downloadHandler(
       filename = function() {
-        paste0("pathology_", gsub("[^0-9]", '_', Sys.time()), ".csv")
+        paste0("subcell_", gsub("[^0-9]", '', Sys.time()), ".csv")
       },
       content = function(file) {
         vroom::vroom_write(data(), file, delim = ",")
+      }
+    )
+    
+    output$download_plot <- downloadHandler(
+      filename = function() {
+        paste0("subcell_", gsub("[^0-9]", '', Sys.time()), ".pdf")
+      },
+      content = function(file) {
+        ggplot2::ggsave(file, output_plot, device = "pdf")
       }
     )
   })

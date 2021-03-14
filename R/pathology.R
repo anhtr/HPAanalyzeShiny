@@ -31,9 +31,10 @@ pathologyServer <- function(id) {
     ## Creating plot
     output$plot <- renderPlot({
       req(input$go, isolate(input$gene))
-      hpaVisPatho(data = HPAanalyze::hpa_histology_data,
+      output_plot <<- hpaVisPatho(data = HPAanalyze::hpa_histology_data,
                   targetGene = isolate(input$gene), 
                   targetCancer = isolate(input$cancer))
+      output_plot
     })
     
     ## Creating table
@@ -50,10 +51,19 @@ pathologyServer <- function(id) {
     
     output$download_data <- downloadHandler(
       filename = function() {
-        paste0("pathology_", gsub("[^0-9]", '_', Sys.time()), ".csv")
+        paste0("pathology_", gsub("[^0-9]", '', Sys.time()), ".csv")
       },
       content = function(file) {
         vroom::vroom_write(data(), file, delim = ",")
+      }
+    )
+    
+    output$download_plot <- downloadHandler(
+      filename = function() {
+        paste0("pathology_", gsub("[^0-9]", '', Sys.time()), ".pdf")
+      },
+      content = function(file) {
+        ggplot2::ggsave(file, output_plot, device = "pdf")
       }
     )
   })

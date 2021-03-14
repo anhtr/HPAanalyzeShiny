@@ -56,7 +56,7 @@ tissueServer <- function(id) {
     
     output$download_data <- downloadHandler(
       filename = function() {
-        paste0("tissue_", gsub("[^0-9]", '_', Sys.time()), ".csv")
+        paste0("tissue_", gsub("[^0-9]", '', Sys.time()), ".csv")
       },
       content = function(file) {
         vroom::vroom_write(data(), file, delim = ",")
@@ -65,7 +65,7 @@ tissueServer <- function(id) {
     
     output$download_plot <- downloadHandler(
       filename = function() {
-        paste0("tissue_", gsub("[^0-9]", '_', Sys.time()), ".pdf")
+        paste0("tissue_", gsub("[^0-9]", '', Sys.time()), ".pdf")
       },
       content = function(file) {
         ggplot2::ggsave(file, plot = output_plot, device = "pdf")
