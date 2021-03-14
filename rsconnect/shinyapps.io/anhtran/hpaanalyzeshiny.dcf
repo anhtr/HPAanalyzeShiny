@@ -1,0 +1,10 @@
+name: hpaanalyzeshiny
+title:
+username:
+account: anhtran
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3789041
+bundleId: 4343874
+url: https://anhtran.shinyapps.io/hpaanalyzeshiny/
+when: 1615753731.29329

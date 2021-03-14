@@ -1,6 +1,8 @@
 #' @import shiny
 #' @import HPAanalyze
 #' @import shinycssloaders
+#' 
+#' @export
 
 hpaShiny <- function(...) {
   ui <- navbarPage(
